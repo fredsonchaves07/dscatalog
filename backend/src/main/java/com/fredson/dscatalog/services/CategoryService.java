@@ -3,11 +3,12 @@ package com.fredson.dscatalog.services;
 import com.fredson.dscatalog.dto.CategoryDTO;
 import com.fredson.dscatalog.entities.Category;
 import com.fredson.dscatalog.repositories.CategoryRepository;
-import com.fredson.dscatalog.services.exceptions.EntityNotFoundException;
+import com.fredson.dscatalog.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,11 +27,22 @@ public class CategoryService {
     @Transactional(readOnly = true)
     public CategoryDTO findById(Long id) {
         Optional<Category> category = categoryRepository.findById(id);
-        return new CategoryDTO(category.orElseThrow(() -> new EntityNotFoundException("Category not found!")));
+        return new CategoryDTO(category.orElseThrow(() -> new ResourceNotFoundException("Category not found!")));
     }
 
     @Transactional
     public CategoryDTO insert(CategoryDTO category) {
         return new CategoryDTO(categoryRepository.save(new Category(category.getName())));
+    }
+
+    @Transactional
+    public CategoryDTO update(Long id, CategoryDTO categoryUpdate) {
+        try {
+            Category category = categoryRepository.getById(id);
+            category.setName(categoryUpdate.getName());
+            return new CategoryDTO(categoryRepository.save(category));
+        } catch (EntityNotFoundException exception) {
+            throw new ResourceNotFoundException("Category not found!");
+        }
     }
 }
