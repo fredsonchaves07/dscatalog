@@ -3,11 +3,11 @@ package com.fredson.dscatalog.services;
 import com.fredson.dscatalog.dto.CategoryDTO;
 import com.fredson.dscatalog.entities.Category;
 import com.fredson.dscatalog.repositories.CategoryRepository;
+import com.fredson.dscatalog.services.exceptions.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,6 +26,6 @@ public class CategoryService {
     @Transactional(readOnly = true)
     public CategoryDTO findById(Long id) {
         Optional<Category> category = categoryRepository.findById(id);
-        return new CategoryDTO(category.get());
+        return new CategoryDTO(category.orElseThrow(() -> new EntityNotFoundException("Category not found!")));
     }
 }
