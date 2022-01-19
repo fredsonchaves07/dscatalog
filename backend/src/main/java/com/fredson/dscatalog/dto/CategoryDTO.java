@@ -3,6 +3,7 @@ package com.fredson.dscatalog.dto;
 import com.fredson.dscatalog.entities.Category;
 
 import java.io.Serializable;
+import java.util.Optional;
 
 public class CategoryDTO implements Serializable {
 
