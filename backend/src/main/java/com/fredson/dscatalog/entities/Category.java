@@ -40,14 +40,6 @@ public class Category implements Serializable {
         this.name = name;
     }
 
-    public Instant getCreatedAt() {
-        return createdAt;
-    }
-
-    public Instant getUpdatedAT() {
-        return updatedAT;
-    }
-
     @PrePersist
     public void prePersist() {
         createdAt = Instant.now();
