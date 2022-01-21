@@ -17,9 +17,11 @@ public class Product implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private String description;
     private Double price;
     private String imgUrl;
+
+    @Column(columnDefinition = "TEXT")
+    private String description;
 
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant date;
