@@ -1,8 +1,10 @@
 package com.fredson.dscatalog.services;
 
+import com.fredson.dscatalog.dto.CategoryDTO;
 import com.fredson.dscatalog.dto.ProductDTO;
 import com.fredson.dscatalog.entities.Category;
 import com.fredson.dscatalog.entities.Product;
+import com.fredson.dscatalog.repositories.CategoryRepository;
 import com.fredson.dscatalog.repositories.ProductRepository;
 import com.fredson.dscatalog.services.exceptions.DatabaseException;
 import com.fredson.dscatalog.services.exceptions.ResourceNotFoundException;
@@ -25,6 +27,9 @@ public class ProductService {
     @Autowired
     private ProductRepository repository;
 
+    @Autowired
+    private CategoryRepository categoryRepository;
+
     @Transactional(readOnly = true)
     public List<ProductDTO> findAll() {
         List<Product> productList = repository.findAll();
@@ -43,21 +48,24 @@ public class ProductService {
         return new ProductDTO(product.orElseThrow(() -> new ResourceNotFoundException("Product not found!")), product.get().getCategories());
     }
 
-//    @Transactional
-//    public ProductDTO insert(ProductDTO product) {
-//        return new ProductDTO(repository.save(new Product(product.getName())));
-//    }
-//
-//    @Transactional
-//    public ProductDTO update(Long id, ProductDTO productUpdate) {
-//        try {
-//            Product product = repository.getById(id);
-//            product.setName(productUpdate.getName());
-//            return new ProductDTO(repository.save(product));
-//        } catch (EntityNotFoundException exception) {
-//            throw new ResourceNotFoundException("Product not found!");
-//        }
-//    }
+    @Transactional
+    public ProductDTO insert(ProductDTO product) {
+        Product entity = new Product();
+        copyDTOToEntity(product, entity);
+        entity = repository.save(entity);
+        return new ProductDTO(entity);
+    }
+
+    @Transactional
+    public ProductDTO update(Long id, ProductDTO productUpdate) {
+        try {
+            Product product = repository.getById(id);
+            copyDTOToEntity(productUpdate, product);
+            return new ProductDTO(repository.save(product));
+        } catch (EntityNotFoundException exception) {
+            throw new ResourceNotFoundException("Product not found!");
+        }
+    }
 
     public void delete(Long id) {
         try {
@@ -66,6 +74,19 @@ public class ProductService {
             throw new ResourceNotFoundException("Product not found!");
         } catch (DataIntegrityViolationException exception) {
             throw new DatabaseException("Integrity violation");
+        }
+    }
+
+    private void copyDTOToEntity(ProductDTO product, Product entity) {
+        entity.setName(product.getName());
+        entity.setDate(product.getDate());
+        entity.setPrice(product.getPrice());
+        entity.setImgUrl(product.getImgUrl());
+        entity.setDescription(product.getDescription());
+        entity.getCategories().clear();
+        for (CategoryDTO category : product.getCategories()) {
+            Category category1 = categoryRepository.getById(category.getId());
+            entity.getCategories().add(category1);
         }
     }
 }

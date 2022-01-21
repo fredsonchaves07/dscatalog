@@ -38,23 +38,23 @@ public class ProductResource {
         ProductDTO product = service.findById(id);
         return ResponseEntity.ok().body(product);
     }
-//
-//    @PostMapping()
-//    public ResponseEntity<ProductDTO> insert(@RequestBody ProductDTO product) {
-//        product = service.insert(product);
-//        URI uri = ServletUriComponentsBuilder
-//                .fromCurrentRequestUri()
-//                .path("/{id}")
-//                .buildAndExpand(product.getId())
-//                .toUri();
-//        return ResponseEntity.created(uri).body(product);
-//    }
 
-//    @PutMapping("/{id}")
-//    public ResponseEntity<ProductDTO> update(@PathVariable Long id, @RequestBody ProductDTO category) {
-//        category = service.update(id, category);
-//        return ResponseEntity.ok().body(category);
-//    }
+    @PostMapping()
+    public ResponseEntity<ProductDTO> insert(@RequestBody ProductDTO product) {
+        product = service.insert(product);
+        URI uri = ServletUriComponentsBuilder
+                .fromCurrentRequestUri()
+                .path("/{id}")
+                .buildAndExpand(product.getId())
+                .toUri();
+        return ResponseEntity.created(uri).body(product);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ProductDTO> update(@PathVariable Long id, @RequestBody ProductDTO product) {
+        product = service.update(id, product);
+        return ResponseEntity.ok().body(product);
+    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
