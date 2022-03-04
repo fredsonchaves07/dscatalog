@@ -28,6 +28,9 @@ public class Category implements Serializable {
         this.name = name;
     }
 
+    public Category(long l, String electronics) {
+    }
+
     public Long getId() {
         return id;
     }
