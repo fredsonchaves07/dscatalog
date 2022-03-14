@@ -5,6 +5,7 @@ import com.fredson.dscatalog.entities.Product;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -17,7 +18,7 @@ public class ProductDTO implements Serializable {
     private String imgUrl;
     private String description;
     private Instant date;
-    private List<CategoryDTO> categories;
+    private List<CategoryDTO> categories = new ArrayList<>();
 
     public ProductDTO() {}
 

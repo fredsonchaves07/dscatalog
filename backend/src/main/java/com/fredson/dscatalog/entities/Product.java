@@ -45,9 +45,6 @@ public class Product implements Serializable {
         this.date = date;
     }
 
-    public Product(String phone, String good_phone, double v, String s, Instant parse) {
-    }
-
     public Long getId() {
         return id;
     }
