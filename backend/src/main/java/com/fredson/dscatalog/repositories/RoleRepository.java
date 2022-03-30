@@ -1,0 +1,11 @@
+package com.fredson.dscatalog.repositories;
+
+import com.fredson.dscatalog.entities.Role;
+import com.fredson.dscatalog.entities.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface RoleRepository extends JpaRepository<Role, Long> {
+
+}
