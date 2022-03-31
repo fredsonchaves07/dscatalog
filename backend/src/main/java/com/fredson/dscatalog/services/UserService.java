@@ -87,7 +87,7 @@ public class UserService {
         user.setFirstName(userDTO.getFirstName());
         user.setLastName(userDTO.getLastName());
         user.getRoles().clear();
-        for (RoleDTO roleDTO : userDTO.getRoleDTOS()) {
+        for (RoleDTO roleDTO : userDTO.getRoles()) {
             Role role = roleRepository.getById(roleDTO.getId());
             user.getRoles().add(role);
         }
