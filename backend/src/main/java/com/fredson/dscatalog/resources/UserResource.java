@@ -1,9 +1,7 @@
 package com.fredson.dscatalog.resources;
 
-import com.fredson.dscatalog.dto.ProductDTO;
 import com.fredson.dscatalog.dto.UserDTO;
 import com.fredson.dscatalog.dto.UserInsertDTO;
-import com.fredson.dscatalog.services.ProductService;
 import com.fredson.dscatalog.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 
 @RestController
@@ -34,7 +33,7 @@ public class UserResource {
     }
 
     @PostMapping()
-    public ResponseEntity<UserDTO> insert(@RequestBody UserInsertDTO userInsertDTO) {
+    public ResponseEntity<UserDTO> insert(@Valid @RequestBody UserInsertDTO userInsertDTO) {
         UserDTO newDto = service.insert(userInsertDTO);
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequestUri()
@@ -45,7 +44,7 @@ public class UserResource {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserDTO> update(@PathVariable Long id, @RequestBody UserDTO userDTO) {
+    public ResponseEntity<UserDTO> update(@Valid @PathVariable Long id, @RequestBody UserDTO userDTO) {
         userDTO = service.update(id, userDTO);
         return ResponseEntity.ok().body(userDTO);
     }
