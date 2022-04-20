@@ -3,6 +3,7 @@ package com.fredson.dscatalog.services;
 import com.fredson.dscatalog.dto.RoleDTO;
 import com.fredson.dscatalog.dto.UserDTO;
 import com.fredson.dscatalog.dto.UserInsertDTO;
+import com.fredson.dscatalog.dto.UserUpdateDTO;
 import com.fredson.dscatalog.entities.Role;
 import com.fredson.dscatalog.entities.User;
 import com.fredson.dscatalog.repositories.RoleRepository;
@@ -62,7 +63,7 @@ public class UserService {
     }
 
     @Transactional
-    public UserDTO update(Long id, UserDTO userDTO) {
+    public UserDTO update(Long id, UserUpdateDTO userDTO) {
         try {
             User user = userRepository.getById(id);
             copyDTOToEntity(userDTO, user);
